@@ -1,3 +1,8 @@
+// Only try half length of the original number x, stop when reversed > x and compare x with reversed or (reversed / 10)
+// If the number of digits is even, it stops when reversed and x has the same number of digit, if the number of digit is odd,
+// the middle digit is added to reversed, hence reversed / 10 is used to compare, note the middle number does not affect the result.
+
+
 class Solution {
 public:
     bool isPalindrome(int x) {
@@ -7,7 +12,7 @@ public:
         
         int reversed = 0;
         
-        while (reversed < x) {
+        while (reversed < x) {  // stop when reversed > x, thus if there exist the middle digit, it will be added to reversed i.e. do not stop when (reversed == x)
             reversed = reversed * 10 + x % 10;
             x /= 10;
         }
@@ -16,3 +21,4 @@ public:
         
     }
 };
+
