@@ -1,0 +1,59 @@
+// Two lists work at the same pace
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+ 
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int carry = 0;  // keep the carry-on value according to the result of previous calculation
+        ListNode *cur1 = l1;  // current position in l1
+        ListNode *cur2 = l2;  // current position in l2
+        ListNode *result = new ListNode();  // ListNode to be returned
+        ListNode *resultCur = result; // current position in result
+        
+        while (true) {  // keep adding until the end of both l1 and l2 are met, i.e. cur1 == cur2 == nullptr
+            if (cur1 == nullptr) {  // cur1 is finished
+                resultCur->val = (cur2->val + carry) % 10;
+                carry = (cur2->val + carry) / 10;
+                cur2 = cur2->next;
+            } else if (cur2 == nullptr) { // cur2 is finished
+                resultCur->val = (cur1->val + carry) % 10;
+                carry = (cur1->val + carry) / 10;
+                cur1 = cur1->next;
+            } else {
+                resultCur->val = (cur1->val + cur2->val + carry) % 10;
+                carry = (cur1->val + cur2->val + carry) / 10;
+                cur1 = cur1->next;
+                cur2 = cur2->next;
+            }
+            
+            if ((cur1 == nullptr) && (cur2 == nullptr)) {
+                if (carry == 1) { // number of digits + 1
+                    ListNode* newList = new ListNode(1);
+                    resultCur->next = newList;
+                    break;
+                } else {
+                    break;
+                }
+            }
+ 
+            // create ListNode to store next digit of calculation
+            ListNode* newList = new ListNode();
+            resultCur->next = newList;
+            resultCur = resultCur->next;// update current position in result
+        }
+        
+        return result;
+        
+    }
+};
