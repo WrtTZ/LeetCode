@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        if (p.empty()) {
+            return s.empty();
+        }
+        
+        bool first = (!s.empty()) && ( (s[0] == p[0]) || (p[0] == '.'));    // match of the first character
+        
+        if (p.length() >= 2 && p[1] == '*') { # if there is a '*' character
+            return (isMatch(s, p.substr(2, p.length() - 2))) || (first && isMatch(s.erase(0, 1), p));
+        } else {  # no '*' involved
+            return first && isMatch(s.erase(0, 1), p.erase(0, 1));
+        }
+        
+    }
+};
