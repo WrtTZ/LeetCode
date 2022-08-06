@@ -1,0 +1,35 @@
+class Solution {
+public:
+    
+    void backtrack(vector<bool>& unused, vector<int>& nums, vector<int>& cur, vector<vector<int>>& ans) {
+        // if length of cur equal to nums, then push the permutation, then return
+        if (cur.size() == nums.size()) {
+            ans.push_back(cur);
+            return;
+        }
+        
+        for (int i = 0; i < unused.size(); i++) {
+            if (unused[i]) {
+                cur.push_back(nums[i]);
+                unused[i] = false;
+                backtrack(unused, nums, cur, ans);
+                cur.pop_back();
+                unused[i] = true;
+            }
+        }
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> ans;
+        vector<bool> unused;
+        vector<int> cur;
+        
+        // initialize the unused vector, all true at first as ni number is used
+        for (int i = 0; i < nums.size(); i++) {
+            unused.push_back(true);
+        }
+        
+        backtrack(unused, nums, cur, ans);
+        return ans;
+    }
+};
