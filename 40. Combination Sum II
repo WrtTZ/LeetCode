@@ -1,0 +1,46 @@
+class Solution {
+public:
+    void backtrack(vector<vector<int>>& ans, vector<int>& candidates, int remain, int cur_index, vector<int>& cur) {    
+        if (remain == 0) {
+            ans.push_back(cur);
+            return;
+        }
+        
+        while(cur_index < candidates.size() && remain - candidates[cur_index] >= 0) {
+
+            remain -= candidates[cur_index];
+            cur.push_back(candidates[cur_index]);
+            backtrack(ans, candidates, remain, cur_index + 1, cur);
+            remain += candidates[cur_index];
+            cur.pop_back();
+            
+            // if last element is reached, no need to proceed
+            if (cur_index == candidates.size() - 1) {
+                return;
+            }
+            
+            // find the next index that is different from the current number
+            for (int i = cur_index + 1; i < candidates.size(); i++) {
+                if (candidates[cur_index] != candidates[i]) {
+                    cur_index = i;
+                    break;
+                }
+                // all number later are the same as the current number
+                if (i == candidates.size() - 1) {
+                    return;
+                }
+            }
+        }
+        
+    }
+    
+    
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        vector<vector<int>> ans;
+        vector<int> cur;
+       
+        backtrack(ans, candidates, target, 0, cur);
+        return ans;
+    }
+};
