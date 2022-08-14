@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int l = 0;
+        int r = height.size() - 1;
+        int ans = -1;
+        int temp_area = 0;
+        
+        // start from the two ends, try moving the end together while calculating the new area, update if new area if greater than previous area.
+        while(l < r) {
+            if (height[l] <= height[r]) {
+                // area is the lower height of the two ends times the distance between them
+                temp_area = (height[l]) * (r - l);
+                l += 1;
+            } else {
+                temp_area = (height[r]) * (r - l);
+                r -= 1;
+            }
+            // update ans
+            ans = ans >= temp_area ? ans : temp_area;
+        }
+        
+        return ans;
+    }
+};
