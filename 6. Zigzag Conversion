@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        
+        if (numRows == 1) {
+            return s;
+        }
+        
+        vector<string> rows(min(numRows, (int)s.size()));
+        bool dir = false;    // true is going down while false going up
+        int cur = 0;    // current row number, start from the top row
+        
+        for (int i = 0; i < s.size(); i++) {
+            rows[cur] += s[i];
+            
+            // check if direction needs to be changed
+            if (cur == 0 || cur == numRows - 1) {
+                dir = !dir;
+            }
+            
+            // update row number
+            if (dir) {
+                cur += 1;
+            } else {
+                cur -= 1;
+            }
+        }
+        
+        string ans = "";
+        for (int i = 0; i < rows.size(); i++) {
+            ans += rows[i];
+        }
+        
+        return ans;
+    }
+};
